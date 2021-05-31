@@ -18,6 +18,15 @@
         "react"
     ],
     "rules": {
-        "no-use-before-define": "off"
+        "no-use-before-define": "off",
+        "react/prop-types": [
+            "error",
+            {
+                "ignore": [
+                    // ReactNavigationの警告無効化
+                    "navigation"
+                ]
+            }
+        ]
     }
 }

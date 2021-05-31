@@ -2,13 +2,12 @@ import React from 'react';
 import {
   View, Text, ScrollView, StyleSheet,
 } from 'react-native';
-import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
-export default function MemoDetailScreen() {
+export default function MemoDetailScreen(props) {
+  const { navigation } = props; // ReactNavigationが渡してくれる
   return (
     <View style={styles.container}>
-      <AppBar />
       <View style={styles.memoHeader}>
         <Text style={styles.memoTitle}>買い物リスト</Text>
         <Text style={styles.memoDate}>2020年12月24 10:00</Text>
@@ -21,7 +20,13 @@ export default function MemoDetailScreen() {
         </Text>
       </ScrollView>
       {/* bottom: auto でデフォルト値をキャンセル */}
-      <CircleButton name="edit-2" style={{ top: 160, bottom: 'auto' }} />
+      <CircleButton
+        name="edit-2"
+        style={{ top: 60, bottom: 'auto' }}
+        onPress={() => {
+          navigation.navigate('MemoEdit'); // 押下されたらMemoEditへ遷移する
+        }}
+      />
     </View>
   );
 }
