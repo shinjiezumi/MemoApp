@@ -1,15 +1,31 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, StyleSheet,
+  View, Text, TextInput, StyleSheet, Alert,
   TouchableOpacity,
 } from 'react-native';
 
+import firebase from 'firebase';
 import Button from '../components/Button';
 
 export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  function handlePress() {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        console.log(userCredential.user.uid);
+        // routesで指定した配列で上書きをすることで、ログイン直後のメモ一覧でログイン画面に戻れないようにしている
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      })
+      .catch((error) => {
+        Alert.alert(error.code);
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -39,13 +55,7 @@ export default function LogInScreen(props) {
         />
         <Button
           label="Login"
-          onPress={() => {
-            // routesで指定した配列で上書きをすることで、ログイン直後のメモ一覧でログイン画面に戻れないようにしている
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'MemoList' }],
-            });
-          }}
+          onPress={handlePress}
         />
         <View style={styles.footer}>
           <Text style={styles.footerText}>Not registered?</Text>
