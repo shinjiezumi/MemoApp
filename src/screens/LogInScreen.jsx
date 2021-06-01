@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, TextInput, StyleSheet, Alert,
   TouchableOpacity,
@@ -11,6 +11,19 @@ export default function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // ログイン画面表示時の処理
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      }
+      return unsubscribe; // useEffectでreturnした関数は、画面がアンマウントされた際に呼び出される。
+    });
+  }, []); // propsが変更されるたびに発火してしまうため[]を指定して初回のみ実行されるようにする。depsは監視対象のprop
 
   function handlePress() {
     firebase.auth().signInWithEmailAndPassword(email, password)

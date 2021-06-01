@@ -13,6 +13,7 @@ export default function SignUpScreen(props) {
   function handlePress() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
+        console.log(userCredential.user.uid);
         // routesで指定した配列で上書きをすることで、登録直後のメモ一覧でログイン画面に戻れないようにしている
         navigation.reset({
           index: 0,
