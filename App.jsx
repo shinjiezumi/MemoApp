@@ -3,6 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import firebase from 'firebase';
+import { LogBox } from 'react-native';
 import MemoListScreen from './src/screens/MemoListScreen';
 import MemoDetailScreen from './src/screens/MemoDetailScreen';
 import MemoCreateScreen from './src/screens/MemoCreateScreen';
@@ -11,6 +12,8 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import LogInScreen from './src/screens/LogInScreen';
 
 import { firebaseConfig } from './env';
+
+LogBox.ignoreWarnings(['Setting a timer']);
 
 require('firebase/firestore');
 
