@@ -5,17 +5,18 @@ import {
 import firebase from 'firebase';
 import Button from '../components/Button';
 import Loading from '../components/Loading';
+import { translateErrors } from '../utils';
 
 export default function SignUpScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handlePress() {
+    setIsLoading(true);
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log(userCredential.user.uid);
+      .then(() => {
         // routesで指定した配列で上書きをすることで、登録直後のメモ一覧でログイン画面に戻れないようにしている
         navigation.reset({
           index: 0,
@@ -23,7 +24,8 @@ export default function SignUpScreen(props) {
         });
       })
       .catch((error) => {
-        Alert.alert(error.code);
+        const errorMsg = translateErrors(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       })
       .then(() => {
         setIsLoading(false);

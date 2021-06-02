@@ -44,9 +44,9 @@ export default function MemoListScreen(props) {
       });
       setMemos(userMemos);
       setIsLoading(false);
-    }, ((error) => {
+    }, (() => {
       setIsLoading(false);
-      Alert.alert(error);
+      Alert.alert('メモデータの取得に失敗しました');
     }));
     return unsubscribe;
   }, []);

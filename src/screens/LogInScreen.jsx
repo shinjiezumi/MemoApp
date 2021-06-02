@@ -7,6 +7,7 @@ import {
 import firebase from 'firebase';
 import Button from '../components/Button';
 import Loading from '../components/Loading';
+import { translateErrors } from '../utils';
 
 export default function LogInScreen(props) {
   const { navigation } = props;
@@ -31,8 +32,7 @@ export default function LogInScreen(props) {
 
   function handlePress() {
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        console.log(userCredential.user.uid);
+      .then(() => {
         // routesで指定した配列で上書きをすることで、ログイン直後のメモ一覧でログイン画面に戻れないようにしている
         navigation.reset({
           index: 0,
@@ -40,7 +40,8 @@ export default function LogInScreen(props) {
         });
       })
       .catch((error) => {
-        Alert.alert(error.code);
+        const errorMsg = translateErrors(error.code);
+        Alert.alert(errorMsg.title, errorMsg.description);
       })
       .then(() => {
         setIsLoading(false);

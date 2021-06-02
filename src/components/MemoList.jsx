@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import {
   shape, string, instanceOf, arrayOf,
 } from 'prop-types';
+import firebase from 'firebase';
 import { dateToString } from '../utils';
 
 export default function MemoList(props) {
@@ -14,6 +15,33 @@ export default function MemoList(props) {
 
   // <Stack.Screen>に登録していないとpropsからnavigationを取得できない。その場合はuseNavigationを利用する
   const navigation = useNavigation();
+
+  function deleteMemo(id) {
+    const { currentUser } = firebase.auth();
+    if (!currentUser) {
+      return;
+    }
+
+    const db = firebase.firestore();
+    const ref = db.collection(`users/${currentUser.uid}/memos`).doc(id);
+    // Androidはネガティブ(中止)→ポジティブ(実行)の順で選択肢を
+    Alert.alert('メモを削除します', 'よろしいですか？', [
+      {
+        text: 'キャンセル',
+        onPress: () => {
+        },
+      },
+      {
+        text: '削除する',
+        style: 'destructive', // iOSで赤字にする
+        onPress: () => {
+          ref.delete().catch(() => {
+            Alert.alert('削除に失敗しました');
+          });
+        },
+      },
+    ]);
+  }
 
   function renderItem({ item }) {
     return (
@@ -36,7 +64,7 @@ export default function MemoList(props) {
               size={16}
               color="#B0B0B0"
               onPress={() => {
-                Alert.alert('Are you sure??');
+                deleteMemo(item.id);
               }}
             />
           </TouchableOpacity>
