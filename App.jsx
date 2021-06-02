@@ -13,7 +13,7 @@ import LogInScreen from './src/screens/LogInScreen';
 
 import { firebaseConfig } from './env';
 
-LogBox.ignoreWarnings(['Setting a timer']);
+LogBox.ignoreLogs(['Setting a timer']);
 
 require('firebase/firestore');
 
