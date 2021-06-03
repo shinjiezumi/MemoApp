@@ -46,7 +46,7 @@ export default function MemoDetailScreen(props) {
       </ScrollView>
       {/* bottom: auto でデフォルト値をキャンセル */}
       <CircleButton
-        name="edit-2"
+        name="pencil"
         style={{ top: 60, bottom: 'auto' }}
         onPress={() => {
           navigation.navigate('MemoEdit', { id: memo.id, bodyText: memo.bodyText }); // 押下されたらMemoEditへ遷移する

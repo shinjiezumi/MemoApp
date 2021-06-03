@@ -2,13 +2,13 @@ import React from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity, Alert, FlatList,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import {
   shape, string, instanceOf, arrayOf,
 } from 'prop-types';
 import firebase from 'firebase';
 import { dateToString } from '../utils';
+import Icon from './icon';
 
 export default function MemoList(props) {
   const { memos } = props;
@@ -58,14 +58,16 @@ export default function MemoList(props) {
           <Text style={styles.memoListItemDate}>{dateToString(item.updatedAt)}</Text>
         </View>
         <View>
-          <TouchableOpacity style={styles.memoDelete}>
-            <Feather
-              name="x"
-              size={16}
+          <TouchableOpacity
+            style={styles.memoDelete}
+            onPress={() => {
+              deleteMemo(item.id);
+            }}
+          >
+            <Icon
+              name="delete"
+              size={24}
               color="#B0B0B0"
-              onPress={() => {
-                deleteMemo(item.id);
-              }}
             />
           </TouchableOpacity>
         </View>
