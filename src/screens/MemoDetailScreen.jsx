@@ -30,7 +30,7 @@ export default function MemoDetailScreen(props) {
       });
     });
     return unsubscribe;
-  });
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.memoHeader}>
